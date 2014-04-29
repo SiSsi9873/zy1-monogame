@@ -106,6 +106,8 @@ namespace Microsoft.Xna.Framework
 
 #if OUYA
 	        GamePad.Initialize();
+#elif FIRE
+			GamePad.Initialize(Context);
 #endif
         }
 		
@@ -117,7 +119,7 @@ namespace Microsoft.Xna.Framework
 
         public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
         {
-#if OUYA
+#if OUYA || FIRE
 			if (GamePad.OnKeyDown(keyCode, e))
 				return true;
 #endif
@@ -125,8 +127,8 @@ namespace Microsoft.Xna.Framework
             Keyboard.KeyDown(keyCode);
             // we need to handle the Back key here because it doesnt work any other way
 #if !OUYA
-            if (keyCode == Keycode.Back)
-                GamePad.Instance.SetBack();
+//            if (keyCode == Keycode.Back)
+//                GamePad.Instance.SetBack();
 #endif
 
             if (keyCode == Keycode.VolumeUp)
@@ -140,7 +142,7 @@ namespace Microsoft.Xna.Framework
 
         public override bool OnKeyUp(Keycode keyCode, KeyEvent e)
         {
-#if OUYA
+#if OUYA || FIRE
 			if (GamePad.OnKeyUp(keyCode, e))
 				return true;
 #endif
@@ -148,7 +150,7 @@ namespace Microsoft.Xna.Framework
             return true;
         }
 
-#if OUYA
+#if OUYA || FIRE
 		public override bool OnGenericMotionEvent(MotionEvent e)
 		{
 			if (GamePad.OnGenericMotionEvent(e))
