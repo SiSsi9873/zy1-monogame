@@ -526,7 +526,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// Trigger the DeviceResetting event
         /// Currently internal to allow the various platforms to send the event at the appropriate time.
         /// </summary>
-        internal void OnDeviceResetting()
+        public void OnDeviceResetting()
         {
             if (DeviceResetting != null)
                 DeviceResetting(this, EventArgs.Empty);
@@ -682,7 +682,7 @@ namespace Microsoft.Xna.Framework.Graphics
             ApplyRenderTargets(renderTargets);
         }
 
-        internal void ApplyRenderTargets(RenderTargetBinding[] renderTargets)
+        public void ApplyRenderTargets(RenderTargetBinding[] renderTargets)
         {
             var clearTarget = false;
 

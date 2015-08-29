@@ -87,7 +87,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
 #if WINDOWS_STOREAPP
         [CLSCompliant(false)]
-        public SwapChainBackgroundPanel SwapChainBackgroundPanel { get; set; }
+        public SwapChainPanel SwapChainBackgroundPanel { get; set; }
 #endif
 
 #if WINDOWS_UAP

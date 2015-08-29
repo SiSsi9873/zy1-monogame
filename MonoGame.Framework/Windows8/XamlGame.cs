@@ -29,7 +29,7 @@ namespace MonoGame.Framework
         /// <param name="window">The core window object.</param>
         /// <param name="swapChainBackgroundPanel">The XAML SwapChainBackgroundPanel to which we render the scene and recieve input events.</param>
         /// <returns></returns>
-        static public T Create(string launchParameters, CoreWindow window, SwapChainBackgroundPanel swapChainBackgroundPanel)
+        static public T Create(string launchParameters, CoreWindow window, SwapChainPanel swapChainBackgroundPanel)
         {
             if (launchParameters == null)
                 throw new NullReferenceException("The launch parameters cannot be null!");
@@ -81,14 +81,14 @@ namespace MonoGame.Framework
         /// <param name="window">The core window object.</param>
         /// <param name="swapChainBackgroundPanel">The XAML SwapChainBackgroundPanel to which we render the scene and recieve input events.</param>
         /// <returns></returns>
-        static public T Create(LaunchActivatedEventArgs args, CoreWindow window, SwapChainBackgroundPanel swapChainBackgroundPanel)
+        static public T Create(LaunchActivatedEventArgs args, CoreWindow window, SwapChainPanel swapChainBackgroundPanel)
         {
             MetroGamePlatform.PreviousExecutionState = args.PreviousExecutionState;
 
             return Create(args.Arguments, window, swapChainBackgroundPanel);
         }
 
-        static public T Create(ProtocolActivatedEventArgs args, CoreWindow window, SwapChainBackgroundPanel swapChainBackgroundPanel)
+        static public T Create(ProtocolActivatedEventArgs args, CoreWindow window, SwapChainPanel swapChainBackgroundPanel)
         {
             MetroGamePlatform.PreviousExecutionState = args.PreviousExecutionState;
 

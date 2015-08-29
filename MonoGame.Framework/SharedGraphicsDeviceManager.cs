@@ -62,7 +62,7 @@ namespace Microsoft.Xna.Framework
 		public SwapChainPanel SwapChainPanel { get; set; }
 #else
 		[CLSCompliant(false)]
-        public SwapChainBackgroundPanel SwapChainBackgroundPanel { get; set; }
+        public SwapChainPanel SwapChainBackgroundPanel { get; set; }
 #endif
 
         public event EventHandler<EventArgs> DeviceCreated;

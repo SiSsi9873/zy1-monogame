@@ -60,7 +60,7 @@ namespace Microsoft.Xna.Framework.Graphics
 #if WINDOWS_UAP
 		SwapChainPanel _swapChainPanel;
 #else
-		SwapChainBackgroundPanel _swapChainBackgroundPanel;
+		SwapChainPanel _swapChainBackgroundPanel;
 #endif
 
 		float _dpi; 
@@ -317,7 +317,7 @@ namespace Microsoft.Xna.Framework.Graphics
             _d2dContext = new SharpDX.Direct2D1.DeviceContext(_d2dDevice, SharpDX.Direct2D1.DeviceContextOptions.None);
         }
 
-        internal void CreateSizeDependentResources()
+        public void CreateSizeDependentResources()
         {
             _d3dContext.OutputMerger.SetTargets((SharpDX.Direct3D11.DepthStencilView)null, 
                                                 (SharpDX.Direct3D11.RenderTargetView)null);  
@@ -456,7 +456,7 @@ namespace Microsoft.Xna.Framework.Graphics
 						}
 #else
 						_swapChainBackgroundPanel = PresentationParameters.SwapChainBackgroundPanel;
-                        using (var nativePanel = ComObject.As<SharpDX.DXGI.ISwapChainBackgroundPanelNative>(PresentationParameters.SwapChainBackgroundPanel))
+                        using (var nativePanel = ComObject.As<SharpDX.DXGI.ISwapChainPanelNative>(PresentationParameters.SwapChainBackgroundPanel))
                         {
 #if WINDOWS_PHONE81 || WINRT
                             _swapChain = new SwapChain1(dxgiFactory2, dxgiDevice2, ref desc, null);
@@ -1065,7 +1065,7 @@ namespace Microsoft.Xna.Framework.Graphics
         }
 
 #if WINRT
-        internal void ResetRenderTargets()
+        public void ResetRenderTargets()
         {
             if (_d3dContext != null)
             {
