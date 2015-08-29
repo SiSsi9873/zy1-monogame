@@ -11,7 +11,7 @@ namespace Microsoft.Xna.Framework.Media
     {
         private static readonly TimeSpan MinimumSongDuration = TimeSpan.FromSeconds(3);
 
-        internal static Context Context { get; set; }
+        public static Context Context { get; set; }
 
         private static AlbumCollection albumCollection;
         private static SongCollection songCollection;

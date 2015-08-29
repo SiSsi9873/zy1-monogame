@@ -82,7 +82,7 @@ namespace Microsoft.Xna.Framework.Media
             }
             else
             {
-                var afd = Game.Activity.Assets.OpenFd(_name);
+                var afd = Android.App.Application.Context.Assets.OpenFd(_name);
                 if (afd == null)
                     return;
 

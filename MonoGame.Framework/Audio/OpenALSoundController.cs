@@ -144,9 +144,11 @@ namespace Microsoft.Xna.Framework.Audio
                 int updateBuffers = DEFAULT_UPDATE_BUFFER_COUNT;
                 if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.JellyBeanMr1)
                 {
-                    Android.Util.Log.Debug("OAL", Game.Activity.PackageManager.HasSystemFeature(PackageManager.FeatureAudioLowLatency) ? "Supports low latency audio playback." : "Does not support low latency audio playback.");
+                    var context = Android.App.Application.Context;
 
-                    var audioManager = Game.Activity.GetSystemService(Context.AudioService) as AudioManager;
+                    Android.Util.Log.Debug("OAL", context.PackageManager.HasSystemFeature(PackageManager.FeatureAudioLowLatency) ? "Supports low latency audio playback." : "Does not support low latency audio playback.");
+
+                    var audioManager = context.GetSystemService(Context.AudioService) as AudioManager;
                     if (audioManager != null)
                     {
                         var result = audioManager.GetProperty(AudioManager.PropertyOutputSampleRate);
