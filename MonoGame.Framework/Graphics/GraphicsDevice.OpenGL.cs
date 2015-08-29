@@ -55,7 +55,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal FramebufferHelper framebufferHelper;
 
-        internal int glFramebuffer = 0;
+        public int glFramebuffer = 0;
         internal int MaxVertexAttributes;        
         internal List<string> _extensions = new List<string>();
         internal int _maxTextureSize = 0;
