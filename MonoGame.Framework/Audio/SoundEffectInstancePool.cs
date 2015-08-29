@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Xna.Framework.Audio
 {
-    internal static class SoundEffectInstancePool
+    public static class SoundEffectInstancePool
     {
 
 #if WINDOWS || (WINRT && !WINDOWS_PHONE) || DESKTOPGL || WEB || ANGLE
@@ -123,7 +123,7 @@ namespace Microsoft.Xna.Framework.Audio
         /// Iterates the list of playing instances, returning them to the pool if they
         /// have stopped playing.
         /// </summary>
-        internal static void Update()
+        public static void Update()
         {
 #if OPENAL
             OpenALSoundController.GetInstance.Update();
