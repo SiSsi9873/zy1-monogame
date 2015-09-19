@@ -147,6 +147,10 @@ namespace Microsoft.Xna.Framework
         }
 #endif
 
+
+#if ANDROID
+        public static OpenTK.Platform.Android.AndroidGameView GameView { get; set; }
+#endif
         /// <summary>
         /// Runs the given action on the UI thread and blocks the current thread while the action is running.
         /// If the current thread is the UI thread, the action will run immediately.
@@ -216,7 +220,8 @@ namespace Microsoft.Xna.Framework
             {
 #if ANDROID
                 //if (!Game.Instance.Window.GraphicsContext.IsCurrent)
-                ((AndroidGameWindow)Game.Instance.Window).GameView.MakeCurrent();
+                if (GameView != null)
+                    GameView.MakeCurrent();
 #endif
                 action();
                 resetEvent.Set();
