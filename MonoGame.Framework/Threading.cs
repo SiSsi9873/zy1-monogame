@@ -68,7 +68,7 @@ namespace Microsoft.Xna.Framework
         public const int kMaxWaitForUIThread = 750; // In milliseconds
 
 #if !WINDOWS_PHONE
-        static int mainThreadId;
+        public static int mainThreadId;
 #endif
 
 #if ANDROID
