@@ -105,7 +105,9 @@ namespace Microsoft.Xna.Framework
 
             _applicationObservers = new List<NSObject>();
 
+            #if !__TVOS__
             UIApplication.SharedApplication.SetStatusBarHidden(true, UIStatusBarAnimation.Fade);
+            #endif
 
             // Create a full-screen window
             _mainWindow = new UIWindow (UIScreen.MainScreen.Bounds);
@@ -317,10 +319,23 @@ namespace Microsoft.Xna.Framework
 
         #endregion Notification Handling
 
+        #region Helper Property
+
+        private DisplayOrientation CurrentOrientation {
+            get {
+                #if __TVOS__
+                return DisplayOrientation.LandscapeLeft;
+                #else
+                return OrientationConverter.ToDisplayOrientation(_viewController.InterfaceOrientation);
+                #endif
+            }
+        }
+
+        #endregion
+
 		private void ViewController_InterfaceOrientationChanged (object sender, EventArgs e)
 		{
-			var orientation = OrientationConverter.ToDisplayOrientation (
-				_viewController.InterfaceOrientation);
+			var orientation = CurrentOrientation;
 
 			// FIXME: The presentation parameters for the GraphicsDevice should
 			//        be managed by the GraphicsDevice itself.  Not by
