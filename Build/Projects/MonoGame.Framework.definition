@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="MonoGame.Framework" Path="MonoGame.Framework" Type="Library" Platforms="Android,Angle,iOS,Linux,MacOS,Ouya,Windows,Windows8,Windows81,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUAP,Web,tvOS">
+<Project Name="MonoGame.Framework" Path="MonoGame.Framework" Type="Library" Platforms="Android,Angle,iOS,Linux,MacOS,Ouya,Windows,Windows8,Windows81,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUAP,Web">
 
   <!--
     Using Protobuild in your own project?  ProjectGuids are only in use here
@@ -45,7 +45,6 @@
     <CustomDefinitions>
       <Platform Name="Android">TRACE;ANDROID;GLES;OPENGL;OPENAL</Platform>
       <Platform Name="iOS">IOS;GLES;OPENGL;OPENAL</Platform>
-      <Platform Name="tvOS">IOS;__TVOS__;GLES;OPENGL;OPENAL</Platform>
       <Platform Name="Linux">TRACE;LINUX;OPENGL;OPENAL;DESKTOPGL</Platform>
       <Platform Name="MacOS">MONOMAC;OPENGL;OPENAL</Platform>
       <Platform Name="Ouya">TRACE;ANDROID;GLES;OPENGL;OUYA;OPENAL</Platform>
@@ -66,7 +65,7 @@
       <Platforms>Angle</Platforms>
     </Uses>
     <Uses Name="OpenGLGraphics">
-      <Platforms>iOS,WindowsGL,Ouya,Android,tvOS</Platforms>
+      <Platforms>iOS,WindowsGL,Ouya,Android</Platforms>
     </Uses>
     <Uses Name="DirectXGraphics">
       <Platforms>Windows8,Windows81,WindowsPhone,WindowsPhone81,WindowsUAP</Platforms>
@@ -101,7 +100,7 @@
     <Service Name="OpenGLGraphics">
       <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION</RemoveDefine>
       <AddDefine>OPENGL;OPENAL</AddDefine>
-      <Platforms>iOS,MacOS,Linux,Windows,WindowsGL,Ouya,Android,tvOS</Platforms>
+      <Platforms>iOS,MacOS,Linux,Windows,WindowsGL,Ouya,Android</Platforms>
       <Conflicts>ANGLEGraphics,DirectXGraphics,WebGraphics</Conflicts>
       <Requires>OpenALAudio,_GLCompatible</Requires>
     </Service>
@@ -118,7 +117,7 @@
 
     <!-- Audio APIs -->
     <Service Name="OpenALAudio">
-      <Platforms>Angle,iOS,Linux,Windows,WindowsGL,MacOS,Android,Ouya,tvOS</Platforms>
+      <Platforms>Angle,iOS,Linux,Windows,WindowsGL,MacOS,Android,Ouya</Platforms>
       <Conflicts>XAudioAudio,WebAudio</Conflicts>
     </Service>
     <Service Name="XAudioAudio">
@@ -235,7 +234,7 @@
       <Platforms>Angle,Linux,MacOS,Windows,WindowsGL,WindowsUAP</Platforms>
     </Compile>
     <Compile Include="Threading.cs">
-      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,WindowsGL,WindowsPhone,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,WindowsGL,WindowsPhone</Platforms>
     </Compile>
     <Compile Include="TitleContainer.cs" />
     <Compile Include="Vector2.cs" />
@@ -252,7 +251,7 @@
     </Compile>
     <Compile Include="Audio\InstancePlayLimitException.cs" />
     <Compile Include="Audio\MSADPCMToPCM.cs">
-      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,WindowsGL,Web,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,WindowsGL,Web</Platforms>
     </Compile>
     <Compile Include="Audio\NoAudioHardwareException.cs" />
     <Compile Include="Audio\OALSoundBuffer.cs">
@@ -262,7 +261,7 @@
       <Services>OpenALAudio</Services>
     </Compile>
     <Compile Include="Audio\OpenALSupport.cs">
-      <Platforms>iOS,MacOS,tvOS</Platforms>
+      <Platforms>iOS,MacOS</Platforms>
     </Compile>
     <Compile Include="Audio\SoundEffect.cs" />
     <Compile Include="Audio\SoundEffect.OpenAL.cs">
@@ -361,10 +360,10 @@
       <Platforms>Angle,Linux,MacOS,Windows8,Windows81,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUAP</Platforms>
     </Compile>
     <Compile Include="Content\ContentReaders\TextureCubeReader.cs">
-      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,Windows8,Windows81,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUAP,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,Windows8,Windows81,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUAP</Platforms>
     </Compile>
     <Compile Include="Content\ContentReaders\TextureReader.cs">
-      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,Windows8,Windows81,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUAP,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,Windows8,Windows81,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUAP</Platforms>
     </Compile>
     <Compile Include="Content\ContentReaders\TimeSpanReader.cs" />
     <Compile Include="Content\ContentReaders\UInt16Reader.cs" />
@@ -376,7 +375,7 @@
     <Compile Include="Content\ContentReaders\VertexBufferReader.cs" />
     <Compile Include="Content\ContentReaders\VertexDeclarationReader.cs"/>
     <Compile Include="Content\ContentReaders\VideoReader.cs">
-      <ExcludePlatforms>Angle,Linux,WindowsGL,WindowsPhone,Web,tvOS</ExcludePlatforms>
+      <ExcludePlatforms>Angle,Linux,WindowsGL,WindowsPhone,Web</ExcludePlatforms>
     </Compile>
     <Compile Include="Content\ContentSerializerAttribute.cs" />
     <Compile Include="Content\ContentSerializerCollectionItemNameAttribute.cs" />
@@ -387,7 +386,7 @@
     <Compile Include="Content\ContentTypeReaderManager.cs" />
     <Compile Include="Content\LzxDecoder.cs" />
     <Compile Include="Content\ResourceContentManager.cs">
-      <Platforms>Angle,Android,iOS,Linux,Ouya,Windows,WindowsGL,tvOS</Platforms>
+      <Platforms>Angle,Android,iOS,Linux,Ouya,Windows,WindowsGL</Platforms>
     </Compile>
 
 
@@ -466,7 +465,7 @@
     <Compile Include="Graphics\ModelMeshPart.cs" />
     <Compile Include="Graphics\NoSuitableGraphicsDeviceException.cs" />
     <Compile Include="Graphics\OcclusionQuery.cs">
-      <ExcludePlatforms>iOS,Android,Ouya,tvOS</ExcludePlatforms>
+      <ExcludePlatforms>iOS,Android,Ouya</ExcludePlatforms>
     </Compile>
     <Compile Include="Graphics\PackedVector\Alpha8.cs" />
     <Compile Include="Graphics\PackedVector\Bgr565.cs" />
@@ -543,7 +542,7 @@
       <Services>WebGraphics</Services>
     </Compile>
     <Compile Include="Graphics\Shader\ShaderProgramCache.cs">
-      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,WindowsGL,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,MacOS,Ouya,WindowsGL</Platforms>
     </Compile>
     <Compile Include="Graphics\Shader\ShaderStage.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
@@ -713,7 +712,7 @@
       <Platforms>Android,WindowsPhone,WindowsPhone81</Platforms>
     </Compile>
     <Compile Include="Input\GamePad.IOS.cs">
-      <Platforms>iOS,tvOS</Platforms>
+      <Platforms>iOS</Platforms>
     </Compile>
     <Compile Include="Input\GamePad.Ouya.cs">
       <Platforms>Ouya</Platforms>
@@ -743,7 +742,7 @@
     <Compile Include="Input\JoystickHat.cs" />
     <Compile Include="Input\JoystickState.cs" />
     <Compile Include="Input\Joystick.Default.cs">
-      <Platforms>Android,Ouya,Windows8,Windows81,Windows,WindowsPhone,WindowsPhone81,WindowsUAP,iOS,Web,tvOS</Platforms>
+      <Platforms>Android,Ouya,Windows8,Windows81,Windows,WindowsPhone,WindowsPhone81,WindowsUAP,iOS,Web</Platforms>
     </Compile>
     <Compile Include="Input\Joystick.OpenTK.cs">
       <Platforms>Angle,Linux,MacOS,WindowsGL</Platforms>
@@ -775,7 +774,7 @@
     <Compile Include="Input\MessageBox.Android.cs">
       <Platforms>Android</Platforms>
     </Compile>
-    <Compile Include="Input\MessageBox.IOS.cs">ƒ
+    <Compile Include="Input\MessageBox.IOS.cs">
       <Platforms>iOS</Platforms>
     </Compile>
     <Compile Include="Input\MessageBox.WP.cs">
@@ -839,7 +838,7 @@
       <Platforms>WindowsPhone</Platforms>
     </Compile>
     <Compile Include="Media\MediaPlayer.Default.cs">
-      <Platforms>Angle,WindowsGL,Linux,MacOS,iOS,Android,Ouya,Web,tvOS</Platforms>
+      <Platforms>Angle,WindowsGL,Linux,MacOS,iOS,Android,Ouya,Web</Platforms>
     </Compile>
     <Compile Include="Media\MediaQueue.cs" />
     <Compile Include="Media\MediaSource.cs" />
@@ -853,7 +852,7 @@
     <Compile Include="Media\SongCollection.cs" />
     <Compile Include="Media\Song.cs" />
     <Compile Include="Media\Song.Default.cs">
-        <Platforms>Angle,MacOS,Web,tvOS</Platforms>
+        <Platforms>Angle,MacOS,Web</Platforms>
     </Compile>
     <Compile Include="Media\Song.Android.cs">
         <Platforms>Android,Ouya</Platforms>
@@ -875,7 +874,7 @@
     </Compile>
     <Compile Include="Media\VideoSoundtrackType.cs" />
     <Compile Include="Media\Video.cs">
-      <ExcludePlatforms>Angle,Linux,WindowsGL,WindowsPhone,Web,tvOS</ExcludePlatforms>
+      <ExcludePlatforms>Angle,Linux,WindowsGL,WindowsPhone,Web</ExcludePlatforms>
     </Compile>
     <Compile Include="Media\Video.IOS.cs">
         <Platforms>iOS</Platforms>
@@ -890,7 +889,7 @@
         <Platforms>Windows</Platforms>
     </Compile>
     <Compile Include="Media\VideoPlayer.cs">
-      <ExcludePlatforms>Angle,Linux,WindowsGL,WindowsPhone,Web,tvOS</ExcludePlatforms>
+      <ExcludePlatforms>Angle,Linux,WindowsGL,WindowsPhone,Web</ExcludePlatforms>
     </Compile>
     <Compile Include="Media\VideoPlayer.IOS.cs">
         <Platforms>iOS</Platforms>
@@ -942,7 +941,7 @@
     <Compile Include="Storage\StorageContainer.cs" />
     <Compile Include="Storage\StorageDevice.cs" />
     <Compile Include="Storage\StorageDeviceHelper.cs">
-      <Platforms>Android,Angle,iOS,Ouya,Windows8,Windows81,Windows,WindowsGL,WindowsPhone,Web,WindowsPhone81,WindowsUAP,Linux,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Ouya,Windows8,Windows81,Windows,WindowsGL,WindowsPhone,Web,WindowsPhone81,WindowsUAP,Linux</Platforms>
     </Compile>
 
 
@@ -1049,25 +1048,6 @@
       <Platforms>iOS</Platforms>
     </Compile>
 
-    <!-- tvOS Platform -->
-    <Compile Include="iOS\iOSGamePlatform.cs">
-      <Platforms>tvOS</Platforms>
-    </Compile>
-    <Compile Include="iOS\iOSGameViewController.cs">
-      <Platforms>tvOS</Platforms>
-    </Compile>
-    <Compile Include="iOS\iOSGameView.cs">
-      <Platforms>tvOS</Platforms>
-    </Compile>
-    <Compile Include="iOS\iOSGameView_GLAbstraction.cs">
-      <Platforms>tvOS</Platforms>
-    </Compile>
-    <Compile Include="iOS\iOSGameView_Touch.cs">
-      <Platforms>tvOS</Platforms>
-    </Compile>
-    <Compile Include="iOS\iOSGameWindow.cs">
-      <Platforms>tvOS</Platforms>
-    </Compile>
 
     <!-- MacOS Platform -->
     <Compile Include="MacOS\GameWindow.cs">

@@ -40,7 +40,6 @@ namespace Microsoft.Xna.Framework
             {
                 UIScreen screen = UIScreen.MainScreen;
 
-                #if !__TVOS__
                 // iOS 7 and older reverses width/height in landscape mode when reporting resolution,
                 // iOS 8+ reports resolution correctly in all cases
                 if (InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || InterfaceOrientation == UIInterfaceOrientation.LandscapeRight)
@@ -51,9 +50,6 @@ namespace Microsoft.Xna.Framework
                 {
 					frame = new CGRect(0, 0, screen.Bounds.Width, screen.Bounds.Height);
                 }
-                #else
-                frame = new CGRect(0, 0, screen.Bounds.Width, screen.Bounds.Height);
-                #endif
             }
 
             base.View = new iOSGameView(_platform, frame);
@@ -67,7 +63,6 @@ namespace Microsoft.Xna.Framework
         {
             get { return (iOSGameView)base.View; }
         }
-        #if !__TVOS__
 
         #region Autorotation for iOS 5 or older
         public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
@@ -98,14 +93,13 @@ namespace Microsoft.Xna.Framework
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
+
         #region Hide statusbar for iOS 7 or newer
         public override bool PrefersStatusBarHidden()
         {
             return _platform.Game.graphicsDeviceManager.IsFullScreen;
         }
         #endregion
-
-
 
 
         #region iOS 8 or newer
@@ -136,7 +130,5 @@ namespace Microsoft.Xna.Framework
         }
 
         #endregion
-
-        #endif
     }
 }
