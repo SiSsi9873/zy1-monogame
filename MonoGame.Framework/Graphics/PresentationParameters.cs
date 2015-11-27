@@ -118,7 +118,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 // If we are not on windows 8 set the value otherwise ignore it.
                 isFullScreen = value;				
 #endif
-#if IOS
+#if IOS && !TVOS
 				UIApplication.SharedApplication.StatusBarHidden = isFullScreen;
 #endif
 
@@ -160,7 +160,7 @@ namespace Microsoft.Xna.Framework.Graphics
             backBufferHeight = GraphicsDeviceManager.DefaultBackBufferHeight;     
 #endif
             deviceWindowHandle = IntPtr.Zero;
-#if IOS
+#if IOS && !TVOS
 			isFullScreen = UIApplication.SharedApplication.StatusBarHidden;
 #else
             // isFullScreen = false;
