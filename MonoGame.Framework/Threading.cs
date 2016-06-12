@@ -46,12 +46,8 @@ using Microsoft.Xna.Framework.Graphics;
 #if IOS
 using Foundation;
 using OpenGLES;
-#if ES11
-using OpenTK.Graphics.ES11;
-#else
-using OpenTK.Graphics.ES20;
 #endif
-#elif DESKTOPGL || ANGLE
+#if DESKTOPGL || ANGLE || GLES
 using OpenGL;
 #endif
 #if WINDOWS_PHONE
@@ -85,7 +81,12 @@ namespace Microsoft.Xna.Framework
 #endif
         }
 #endif
-
+#if ANDROID
+        internal static void ResetThread (int id)
+        {
+            mainThreadId = id;
+        }
+#endif
         /// <summary>
         /// Checks if the code is currently running on the UI thread.
         /// </summary>

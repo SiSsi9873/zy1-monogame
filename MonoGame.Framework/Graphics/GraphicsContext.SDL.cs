@@ -29,6 +29,11 @@ namespace OpenGL
             get { return _disposed; }
         }
 
+		public bool IsCurrent
+		{
+			get { return true; }
+		}
+
         public GraphicsContext(IWindowInfo info)
         {
             if (_disposed)

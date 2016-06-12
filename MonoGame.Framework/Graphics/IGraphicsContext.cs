@@ -12,5 +12,6 @@ namespace OpenGL
         bool IsDisposed { get; }
         void MakeCurrent(IWindowInfo info);
         void SwapBuffers();
+        bool IsCurrent { get; }
     }
 }

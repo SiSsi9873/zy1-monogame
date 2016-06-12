@@ -17,19 +17,12 @@ using GLPrimitiveType = OpenTK.Graphics.OpenGL.BeginMode;
 #endif
 #endif
 
-#if DESKTOPGL
+#if DESKTOPGL || GLES
 using OpenGL;
 #endif
 
 #if ANGLE
 using OpenTK.Graphics;
-#endif
-
-#if GLES
-using OpenTK.Graphics.ES20;
-using FramebufferAttachment = OpenTK.Graphics.ES20.All;
-using RenderbufferStorage = OpenTK.Graphics.ES20.All;
-using GLPrimitiveType = OpenTK.Graphics.ES20.BeginMode;
 #endif
 
 
@@ -527,11 +520,7 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 this.framebufferHelper.GenRenderbuffer(out color);
                 this.framebufferHelper.BindRenderbuffer(color);
-#if GLES
-                this.framebufferHelper.RenderbufferStorageMultisample(preferredMultiSampleCount, (int)RenderbufferStorage.Rgba8Oes, width, height);
-#else
                 this.framebufferHelper.RenderbufferStorageMultisample(preferredMultiSampleCount, (int)RenderbufferStorage.Rgba8, width, height);
-#endif
             }
 
             if (preferredDepthFormat != DepthFormat.None)

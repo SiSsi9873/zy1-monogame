@@ -47,13 +47,10 @@ using MonoMac.OpenGL;
 #if (MONOMAC && !PLATFORM_MACOS_LEGACY)
 using OpenTK.Graphics.OpenGL;
 #endif
-#if GLES
-using OpenTK.Graphics.ES20;
-#else
+#if GLES || DESKTOPGL
 using OpenGL;
 #endif
 #endif
-
 
 namespace Microsoft.Xna.Framework.Graphics
 {

@@ -12,21 +12,12 @@ using OpenTK.Graphics.OpenGL;
 using GLPixelFormat = OpenTK.Graphics.OpenGL.All;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 #endif
-#elif DESKTOPGL
+#elif DESKTOPGL || GLES
 using OpenGL;
 using GLPixelFormat = OpenGL.PixelFormat;
 using PixelFormat = OpenGL.PixelFormat;
-#elif GLES
-#if ANGLE
+#elif ANGLE
 using OpenTK.Graphics;
-#endif
-using OpenTK.Graphics.ES20;
-using VertexPointerType = OpenTK.Graphics.ES20.All;
-using ColorPointerType = OpenTK.Graphics.ES20.All;
-using NormalPointerType = OpenTK.Graphics.ES20.All;
-using TexCoordPointerType = OpenTK.Graphics.ES20.All;
-using GLPixelFormat = OpenTK.Graphics.ES20.All;
-using PixelFormat = OpenTK.Graphics.ES20.PixelFormat;
 #endif
 #endif
 
@@ -337,12 +328,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			switch (function) {
 			case BlendFunction.Add:
 				return BlendEquationMode.FuncAdd;
-#if IOS
-			case BlendFunction.Max:
-				return (BlendEquationMode)All.MaxExt;
-			case BlendFunction.Min:
-				return (BlendEquationMode)All.MinExt;
-#elif MONOMAC || WINDOWS || DESKTOPGL
+#if MONOMAC || WINDOWS || DESKTOPGL || IOS
 			case BlendFunction.Max:
 				return BlendEquationMode.Max;
 			case BlendFunction.Min:
@@ -676,68 +662,68 @@ namespace Microsoft.Xna.Framework.Graphics
                 // 0x83F0 is the RGB version, 0x83F1 is the RGBA version (1-bit alpha)
                 // XNA uses the RGB version.
                 glInternalFormat = (PixelInternalFormat)0x83F0; 
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
             case SurfaceFormat.Dxt1SRgb:
                 if (!supportsSRgb)
                     goto case SurfaceFormat.Dxt1;
                 glInternalFormat = (PixelInternalFormat)0x8C4C;
-                glFormat = (PixelFormat)All.CompressedTextureFormats;
+                glFormat = PixelFormat.CompressedTextureFormats;
                 break;
             case SurfaceFormat.Dxt1a:
                 // 0x83F0 is the RGB version, 0x83F1 is the RGBA version (1-bit alpha)
                 glInternalFormat = (PixelInternalFormat)0x83F1;
-                glFormat = (PixelFormat)All.CompressedTextureFormats;
+                glFormat = PixelFormat.CompressedTextureFormats;
                 break;
             case SurfaceFormat.Dxt3:
                 glInternalFormat = (PixelInternalFormat)0x83F2;
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
             case SurfaceFormat.Dxt3SRgb:
                 if (!supportsSRgb)
                     goto case SurfaceFormat.Dxt3;
                 glInternalFormat = (PixelInternalFormat)0x8C4E;
-                glFormat = (PixelFormat)All.CompressedTextureFormats;
+                glFormat = PixelFormat.CompressedTextureFormats;
                 break;
 			case SurfaceFormat.Dxt5:
                 glInternalFormat = (PixelInternalFormat)0x83F3;
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
             case SurfaceFormat.Dxt5SRgb:
                 if (!supportsSRgb)
                     goto case SurfaceFormat.Dxt5;
                 glInternalFormat = (PixelInternalFormat)0x8C4F;
-                glFormat = (PixelFormat)All.CompressedTextureFormats;
+                glFormat = PixelFormat.CompressedTextureFormats;
                 break;
             case SurfaceFormat.RgbaAtcExplicitAlpha:
-				glInternalFormat = (PixelInternalFormat)All.AtcRgbaExplicitAlphaAmd;
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glInternalFormat = PixelInternalFormat.AtcRgbaExplicitAlphaAmd;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
             case SurfaceFormat.RgbaAtcInterpolatedAlpha:
-				glInternalFormat = (PixelInternalFormat)All.AtcRgbaInterpolatedAlphaAmd;
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glInternalFormat = PixelInternalFormat.AtcRgbaInterpolatedAlphaAmd;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
             case SurfaceFormat.RgbEtc1:
                 glInternalFormat = (PixelInternalFormat)0x8D64; // GL_ETC1_RGB8_OES
-                glFormat = (PixelFormat)All.CompressedTextureFormats;
+                glFormat = PixelFormat.CompressedTextureFormats;
                 break;
 #endif
 #if IOS || ANDROID
 			case SurfaceFormat.RgbPvrtc2Bpp:
-				glInternalFormat = (PixelInternalFormat)All.CompressedRgbPvrtc2Bppv1Img;
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glInternalFormat = PixelInternalFormat.CompressedRgbPvrtc2Bppv1Img;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
 			case SurfaceFormat.RgbPvrtc4Bpp:
-				glInternalFormat = (PixelInternalFormat)All.CompressedRgbPvrtc4Bppv1Img;
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glInternalFormat = PixelInternalFormat.CompressedRgbPvrtc4Bppv1Img;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
 			case SurfaceFormat.RgbaPvrtc2Bpp:
-				glInternalFormat = (PixelInternalFormat)All.CompressedRgbaPvrtc2Bppv1Img;
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glInternalFormat = PixelInternalFormat.CompressedRgbaPvrtc2Bppv1Img;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
 			case SurfaceFormat.RgbaPvrtc4Bpp:
-				glInternalFormat = (PixelInternalFormat)All.CompressedRgbaPvrtc4Bppv1Img;
-				glFormat = (PixelFormat)All.CompressedTextureFormats;
+				glInternalFormat = PixelInternalFormat.CompressedRgbaPvrtc4Bppv1Img;
+				glFormat = PixelFormat.CompressedTextureFormats;
 				break;
 #endif
             default:
@@ -895,11 +881,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		[DebuggerHidden]
         public static void CheckGLError()
         {
-#if GLES
-            var error = GL.GetErrorCode();
-#else
-            var error = GL.GetError();
-#endif
+           var error = GL.GetError();
             //Console.WriteLine(error);
             if (error != ErrorCode.NoError)
                 throw new MonoGameGLException("GL.GetError() returned " + error.ToString());

@@ -13,16 +13,8 @@ using OpenTK.Graphics.OpenGL;
 using GetProgramParameterName = OpenTK.Graphics.OpenGL.ProgramParameter;
 using Bool = OpenTK.Graphics.OpenGL.Boolean;
 #endif
-#elif DESKTOPGL
+#elif DESKTOPGL || GLES
 using OpenGL;
-#elif WINRT
-
-#else
-using OpenTK.Graphics.ES20;
-#if IOS || ANDROID
-using GetProgramParameterName = OpenTK.Graphics.ES20.ProgramParameter;
-using Bool = OpenTK.Graphics.ES20.All;
-#endif
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics

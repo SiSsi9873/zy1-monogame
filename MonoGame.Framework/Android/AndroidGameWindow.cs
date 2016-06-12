@@ -7,7 +7,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.Views;
 using Microsoft.Xna.Framework.Input.Touch;
-using OpenTK;
+using OpenGL;
 
 namespace Microsoft.Xna.Framework
 {
@@ -42,7 +42,7 @@ namespace Microsoft.Xna.Framework
         {
             _clientBounds = new Rectangle(0, 0, context.Resources.DisplayMetrics.WidthPixels, context.Resources.DisplayMetrics.HeightPixels);
 
-            GameView = new MonoGameAndroidGameView(context, this, _game);
+            GameView = new MonoGameAndroidGameView (context, this, _game);
             GameView.RenderOnUIThread = Game.Activity.RenderOnUIThread;
             GameView.RenderFrame += OnRenderFrame;
             GameView.UpdateFrame += OnUpdateFrame;
@@ -53,21 +53,16 @@ namespace Microsoft.Xna.Framework
 
         #region AndroidGameView Methods
 
-        private void OnRenderFrame(object sender, FrameEventArgs frameEventArgs)
+        private void OnRenderFrame(object sender, MonoGameAndroidGameView.FrameEventArgs frameEventArgs)
         {
-            if (GameView.GraphicsContext == null || GameView.GraphicsContext.IsDisposed)
-                return;
-
-            if (!GameView.GraphicsContext.IsCurrent)
-                GameView.MakeCurrent();
+            GameView.MakeCurrent();
 
             Threading.Run();
         }
 
-        private void OnUpdateFrame(object sender, FrameEventArgs frameEventArgs)
+        private void OnUpdateFrame(object sender, MonoGameAndroidGameView.FrameEventArgs frameEventArgs)
         {
-            if (!GameView.GraphicsContext.IsCurrent)
-                GameView.MakeCurrent();
+            GameView.MakeCurrent();
 
             Threading.Run();
 

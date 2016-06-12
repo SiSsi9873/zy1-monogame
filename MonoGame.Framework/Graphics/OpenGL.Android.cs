@@ -27,7 +27,7 @@ namespace OpenGL
 
         private static IGraphicsContext PlatformCreateContext (IWindowInfo info)
         {
-            return new GraphicsContext(info);
+            return null;//new GraphicsContext(info);
         }
     }
 

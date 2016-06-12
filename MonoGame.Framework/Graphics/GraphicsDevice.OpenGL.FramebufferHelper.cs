@@ -19,23 +19,20 @@ using OpenTK.Graphics.OpenGL;
 #endif
 #endif
 
-#if (WINDOWS || DESKTOPGL) && !GLES
+#if (WINDOWS || DESKTOPGL || GLES)
 using OpenGL;
 
 #endif
 
-#if GLES
-using OpenTK.Graphics.ES20;
 using System.Security;
-#endif
 
 namespace Microsoft.Xna.Framework.Graphics
 {
     // ARB_framebuffer_object implementation
     partial class GraphicsDevice
     {
-#if GLES
-        internal class FramebufferHelper
+#if GLES1
+        /*internal class FramebufferHelper
         {
             public bool SupportsInvalidateFramebuffer { get; private set; }
 
@@ -304,7 +301,7 @@ namespace Microsoft.Xna.Framework.Graphics
                     throw new InvalidOperationException(message);
                 }
             }
-        }
+        }*/
 
 #else
         internal class FramebufferHelper

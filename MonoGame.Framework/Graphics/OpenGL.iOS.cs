@@ -6,6 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using ObjCRuntime;
 using System.Security;
+using OpenGLES;
 
 namespace OpenGL
 {
@@ -14,7 +15,18 @@ namespace OpenGL
 		static partial void LoadPlatformEntryPoints()
 		{
 			BoundApi = RenderApi.ES;
+
+            Viewport = iOSViewport;
 		}
+
+        private static void iOSViewport (int x, int y, int w, int h)
+        {
+        }
+
+        private static IGraphicsContext PlatformCreateContext (IWindowInfo info)
+        {
+            return new GraphicsContext ();
+        }
 
 		internal static class EntryPointHelper {
 			
@@ -38,5 +50,59 @@ namespace OpenGL
 			}
 		}
 	}
+
+    public class GraphicsContext : IGraphicsContext
+    {
+        public GraphicsContext ()
+        {
+            Context = new EAGLContext (EAGLRenderingAPI.OpenGLES2);
+        }
+
+        public bool IsCurrent {
+            get {
+                return EAGLContext.CurrentContext == this.Context;
+            }
+        }
+
+        public bool IsDisposed {
+            get {
+                return this.Context == null;
+            }
+        }
+
+        public int SwapInterval {
+            get {
+                throw new NotImplementedException ();
+            }
+
+            set {
+                throw new NotImplementedException ();
+            }
+        }
+
+        public void Dispose ()
+        {
+            if (this.Context != null) {
+                this.Context.Dispose ();
+            }
+            this.Context = null;
+        }
+
+        public void MakeCurrent (IWindowInfo info)
+        {
+            if (!EAGLContext.SetCurrentContext (this.Context)) {
+                throw new InvalidOperationException ("Unable to change current EAGLContext.");
+            }
+        }
+
+        public void SwapBuffers ()
+        {
+            if (!this.Context.PresentRenderBuffer (36161u)) {
+                throw new InvalidOperationException ("EAGLContext.PresentRenderbuffer failed.");
+            }
+        }
+
+        internal EAGLContext Context { get; private set; }
+    }
 }
 

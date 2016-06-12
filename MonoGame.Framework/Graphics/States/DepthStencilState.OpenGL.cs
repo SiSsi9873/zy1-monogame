@@ -10,11 +10,8 @@ using GLStencilFunction = MonoMac.OpenGL.StencilFunction;
 using OpenTK.Graphics.OpenGL;
 using GLStencilFunction = OpenTK.Graphics.OpenGL.StencilFunction;
 #endif
-#elif DESKTOPGL
+#elif DESKTOPGL || GLES
 using OpenGL;
-#elif GLES
-using OpenTK.Graphics.ES20;
-using GLStencilFunction = OpenTK.Graphics.ES20.StencilFunction;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -72,12 +69,7 @@ namespace Microsoft.Xna.Framework.Graphics
             // set function
             if (this.TwoSidedStencilMode)
             {
-#if GLES
-                    var cullFaceModeFront = CullFaceMode.Front;
-                    var cullFaceModeBack = CullFaceMode.Back;
-                    var stencilFaceFront = CullFaceMode.Front;
-                    var stencilFaceBack = CullFaceMode.Back;
-#elif MONOMAC
+#if MONOMAC
                     var cullFaceModeFront = (Version20)CullFaceMode.Front;
                     var cullFaceModeBack = (Version20)CullFaceMode.Back;
                     var stencilFaceFront = StencilFace.Front;

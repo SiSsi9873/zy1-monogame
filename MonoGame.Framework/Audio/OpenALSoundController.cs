@@ -13,12 +13,7 @@ using OpenTK.Audio.OpenAL;
 using OpenTK.Audio;
 #endif
 
-#if GLES
-using OpenTK.Audio.OpenAL;
-using OpenTK;
-#endif
-
-#if DESKTOPGL
+#if DESKTOPGL || GLES
 using OpenAL;
 #endif
 using OpenGL;
@@ -61,7 +56,7 @@ namespace Microsoft.Xna.Framework.Audio
         private static EffectsExtension _efx = null;
 #endif
         private IntPtr _device;
-#if !DESKTOPGL
+#if !DESKTOPGL && !GLES
         ContextHandle _context;
         ContextHandle NullContext = ContextHandle.Zero;
 #else
@@ -248,7 +243,7 @@ namespace Microsoft.Xna.Framework.Audio
                     switch (e.InterruptionType) {
                         case AVAudioSessionInterruptionType.Began:
                             AVAudioSession.SharedInstance().SetActive(false);
-                            Alc.MakeContextCurrent(ContextHandle.Zero);
+                            Alc.MakeContextCurrent(IntPtr.Zero);
                             Alc.SuspendContext(_context);
                             break;
                         case AVAudioSessionInterruptionType.Ended:

@@ -477,6 +477,14 @@ namespace OpenAL
         {
             return GetString (device, (int)p);
         }
+
+        public static void SuspendContext (IntPtr context)
+        {
+        }
+
+        public static void ProcessContext (IntPtr context)
+        {
+        }
     }
 
     public class XRamExtension

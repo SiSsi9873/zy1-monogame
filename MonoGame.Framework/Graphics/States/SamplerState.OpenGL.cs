@@ -11,11 +11,9 @@ using MonoMac.OpenGL;
 #else
 using OpenTK.Graphics.OpenGL;
 #endif
-#elif DESKTOPGL
+#elif DESKTOPGL || GLES
 using OpenGL;
 using ExtTextureFilterAnisotropic = OpenGL.TextureParameterName;
-#elif GLES
-using OpenTK.Graphics.ES20;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -24,13 +22,8 @@ namespace Microsoft.Xna.Framework.Graphics
   {
       private readonly float[] _openGLBorderColor = new float[4];
 
-#if GLES
-        private const TextureParameterName TextureParameterNameTextureMaxAnisotropy = (TextureParameterName)All.TextureMaxAnisotropyExt;
-        private const TextureParameterName TextureParameterNameTextureMaxLevel = (TextureParameterName)0x813D;
-#else
         private const TextureParameterName TextureParameterNameTextureMaxAnisotropy = (TextureParameterName)ExtTextureFilterAnisotropic.TextureMaxAnisotropyExt;
         private const TextureParameterName TextureParameterNameTextureMaxLevel = TextureParameterName.TextureMaxLevel;
-#endif
 
         internal void Activate(GraphicsDevice device, TextureTarget target, bool useMipmaps = false)
         {

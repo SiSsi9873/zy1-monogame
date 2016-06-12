@@ -8,10 +8,7 @@ using MonoMac.OpenGL;
 #if (MONOMAC && !PLATFORM_MACOS_LEGACY)
 using OpenTK.Graphics.OpenGL;
 #endif
-#if GLES
-using OpenTK.Graphics.ES20;
-#endif
-#if DESKTOPGL
+#if DESKTOPGL || GLES
 using OpenGL;
 #endif
 

@@ -13,11 +13,8 @@ using Bool = MonoMac.OpenGL.Boolean;
 using OpenTK.Graphics.OpenGL;
 using Bool = OpenTK.Graphics.OpenGL.Boolean;
 #endif
-#elif DESKTOPGL
+#elif DESKTOPGL || GLES
 using OpenGL;
-#elif GLES
-using OpenTK.Graphics.ES20;
-using Bool = OpenTK.Graphics.ES20.All;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics

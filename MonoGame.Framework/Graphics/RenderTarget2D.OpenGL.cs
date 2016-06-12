@@ -9,12 +9,10 @@ using MonoMac.OpenGL;
 using OpenGL;
 using OpenTK.Graphics.OpenGL;
 #endif
-#elif DESKTOPGL
+#elif DESKTOPGL || GLES
 using OpenGL;
 using System;
 using System.Collections.Generic;
-#elif GLES
-using OpenTK.Graphics.ES20;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics

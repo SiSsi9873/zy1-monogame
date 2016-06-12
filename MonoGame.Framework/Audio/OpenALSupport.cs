@@ -12,7 +12,7 @@ using CoreFoundation;
 using AudioToolbox;
 using AudioUnit;
 
-using OpenTK.Audio.OpenAL;
+using OpenAL;
 
 #elif MONOMAC
 

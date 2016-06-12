@@ -39,16 +39,10 @@ using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 #endif
 #endif
 
-#if DESKTOPGL
+#if DESKTOPGL || GLES
 using OpenGL;
 using GLPixelFormat = OpenGL.PixelFormat;
 using PixelFormat = OpenGL.PixelFormat;
-#endif
-
-#if GLES
-using OpenTK.Graphics.ES20;
-using GLPixelFormat = OpenTK.Graphics.ES20.All;
-using PixelFormat = OpenTK.Graphics.ES20.PixelFormat;
 #endif
 
 #if ANDROID
@@ -253,7 +247,7 @@ namespace Microsoft.Xna.Framework.Graphics
             GraphicsExtensions.CheckGLError();
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebufferId);
             GraphicsExtensions.CheckGLError();
-            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferSlot.ColorAttachment0, TextureTarget.Texture2D, this.glTexture, 0);
+            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, this.glTexture, 0);
             GraphicsExtensions.CheckGLError();
             var x = 0;
             var y = 0;
