@@ -13,19 +13,45 @@ namespace Microsoft.Xna.Framework.Input
     {
         internal static bool MenuPressed = false;
 
-        private static int PlatformGetMaxIndex()
+        private static int PlatformGetMaxNumberOfGamePads ()
         {
             return 4;
+        }
+
+        static bool IndexIsUsed (GCControllerPlayerIndex index)
+        {
+            foreach (var ctrl in GCController.Controllers)
+                if (ctrl.PlayerIndex==(int)index) return true;
+
+            return false;
+        }
+
+        static void AssingIndex(GCControllerPlayerIndex index) {
+            if (IndexIsUsed(index))
+                return;
+            foreach (var controller in GCController.Controllers)
+            {
+                if (controller.PlayerIndex == (int)index)
+                    break;
+                if (controller.PlayerIndex == (int)GCControllerPlayerIndex.Unset)
+                {
+                    controller.PlayerIndex = (int)index;
+                    break;
+                }
+            }
         }
 
         private static GamePadCapabilities PlatformGetCapabilities(int index)
         {
             var ind = (GCControllerPlayerIndex)index;
+
+            AssingIndex(ind);
+
             foreach (var controller in GCController.Controllers)
             {
                 if (controller == null)
                     continue;
-                if (controller.PlayerIndex == ind)
+                if (controller.PlayerIndex == (int)ind)
                     return GetCapabilities(controller);
             }
             return new GamePadCapabilities { IsConnected = false };
@@ -43,12 +69,20 @@ namespace Microsoft.Xna.Framework.Input
             ButtonState Left = ButtonState.Released;
             ButtonState Right = ButtonState.Released;
 
+            Vector2 leftThumbStickPosition = Vector2.Zero;
+            Vector2 rightThumbStickPosition = Vector2.Zero;
+
+            float leftTriggerValue = 0;
+            float rightTriggerValue = 0;
+
+            AssingIndex(ind);
+
             foreach  (var controller in GCController.Controllers) {
 
                 if (controller == null)
                     continue;
 
-                if (controller.PlayerIndex != ind)
+                if (controller.PlayerIndex != (int)ind)
                     continue;
 
                 connected = true;
@@ -68,12 +102,25 @@ namespace Microsoft.Xna.Framework.Input
                         buttons.Add(Buttons.X);
                     if (controller.ExtendedGamepad.ButtonY.IsPressed == true && !buttons.Contains (Buttons.Y))
                         buttons.Add(Buttons.Y);
-                    
+
+                    if (controller.ExtendedGamepad.LeftShoulder.IsPressed == true && !buttons.Contains (Buttons.LeftShoulder))
+                        buttons.Add (Buttons.LeftShoulder);
+                    if (controller.ExtendedGamepad.RightShoulder.IsPressed == true && !buttons.Contains (Buttons.RightShoulder))
+                        buttons.Add (Buttons.RightShoulder);
+
                     Up = controller.ExtendedGamepad.DPad.Up.IsPressed ? ButtonState.Pressed : ButtonState.Released;
                     Down = controller.ExtendedGamepad.DPad.Down.IsPressed ? ButtonState.Pressed : ButtonState.Released;
                     Left = controller.ExtendedGamepad.DPad.Left.IsPressed ? ButtonState.Pressed : ButtonState.Released;
                     Right = controller.ExtendedGamepad.DPad.Right.IsPressed ? ButtonState.Pressed : ButtonState.Released;
-                   
+
+                    leftThumbStickPosition.X = controller.ExtendedGamepad.LeftThumbstick.XAxis.Value;
+                    leftThumbStickPosition.Y = controller.ExtendedGamepad.LeftThumbstick.YAxis.Value;
+
+                    rightThumbStickPosition.X = controller.ExtendedGamepad.RightThumbstick.XAxis.Value;
+                    rightThumbStickPosition.Y = controller.ExtendedGamepad.RightThumbstick.YAxis.Value;
+
+                    leftTriggerValue = controller.ExtendedGamepad.LeftTrigger.Value;
+                    rightTriggerValue = controller.ExtendedGamepad.RightTrigger.Value;
                 }
                 else if (controller.Gamepad != null)
                 {
@@ -104,8 +151,8 @@ namespace Microsoft.Xna.Framework.Input
                 }
             }
             var state = new GamePadState(
-                new GamePadThumbSticks(),
-                new GamePadTriggers(),
+                new GamePadThumbSticks(leftThumbStickPosition, rightThumbStickPosition),
+                new GamePadTriggers(leftTriggerValue, rightTriggerValue),
                 new GamePadButtons(buttons.ToArray()),
                 new GamePadDPad (Up, Down, Left, Right));
             state.IsConnected = connected;

@@ -1719,6 +1719,21 @@ namespace Microsoft.Xna.Framework
                 (int)MathHelper.Lerp(value1.B, value2.B, amount),
                 (int)MathHelper.Lerp(value1.A, value2.A, amount) );
         }
+
+        /// <summary>
+        /// <see cref="Color.Lerp"/> should be used instead of this function.
+        /// </summary>
+        /// <returns>Interpolated <see cref="Color"/>.</returns>
+        [Obsolete("Color.Lerp should be used instead of this function.")]
+        public static Color LerpPrecise(Color value1, Color value2, Single amount)
+        {
+            amount = MathHelper.Clamp(amount, 0, 1);
+            return new Color(
+                (int)MathHelper.LerpPrecise(value1.R, value2.R, amount),
+                (int)MathHelper.LerpPrecise(value1.G, value2.G, amount),
+                (int)MathHelper.LerpPrecise(value1.B, value2.B, amount),
+                (int)MathHelper.LerpPrecise(value1.A, value2.A, amount));
+        }
 		
 	/// <summary>
         /// Multiply <see cref="Color"/> by value.

@@ -4,12 +4,25 @@
 
 using System;
 
-#if MONOMAC
+#if MONOMAC && PLATFORM_MACOS_LEGACY
 using MonoMac.OpenGL;
-#elif DESKTOPGL
+using GLPixelFormat = MonoMac.OpenGL.All;
+using Bool = MonoMac.OpenGL.Boolean;
+#endif
+#if (MONOMAC && !PLATFORM_MACOS_LEGACY)
 using OpenTK.Graphics.OpenGL;
-#elif GLES
+using GLPixelFormat = OpenTK.Graphics.OpenGL.All;
+using Bool = OpenTK.Graphics.OpenGL.Boolean;
+#endif
+#if DESKTOPGL
+using OpenGL;
+using GLPixelFormat = OpenGL.PixelFormat;
+using PixelFormat = OpenGL.PixelFormat;
+#endif
+#if GLES
 using OpenTK.Graphics.ES20;
+using GLPixelFormat = OpenTK.Graphics.ES20.All;
+using PixelFormat = OpenTK.Graphics.ES20.PixelFormat;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -46,7 +59,7 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 TextureTarget target = GetGLCubeFace((CubeMapFace)i);
 
-                if (glFormat == (PixelFormat)All.CompressedTextureFormats)
+                if (glFormat == (PixelFormat)GLPixelFormat.CompressedTextureFormats)
                 {
                     throw new NotImplementedException();
                 }
@@ -62,7 +75,7 @@ namespace Microsoft.Xna.Framework.Graphics
 #if IOS || ANDROID
 				GL.GenerateMipmap(TextureTarget.TextureCubeMap);
 #else
-                GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.GenerateMipmap, (int)All.True);
+                GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.GenerateMipmap, (int)Bool.True);
 #endif
                 GraphicsExtensions.CheckGLError();
             }
@@ -71,15 +84,12 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private void PlatformGetData<T>(CubeMapFace cubeMapFace, T[] data) where T : struct
         {
-#if OPENGL && MONOMAC
+#if OPENGL && (MONOMAC || DESKTOPGL)
             TextureTarget target = GetGLCubeFace(cubeMapFace);
-            GL.BindTexture(target, this.glTexture);
-            // 4 bytes per pixel
-            if (data.Length < size * size * 4)
-                throw new ArgumentException("data");
-
-            GL.GetTexImage<T>(target, 0, PixelFormat.Bgra,
-                PixelType.UnsignedByte, data);
+            GL.BindTexture(TextureTarget.TextureCubeMap, this.glTexture);
+            GraphicsExtensions.CheckGLError();
+            GL.GetTexImage<T>(target, 0, glFormat, glType, data);
+            GraphicsExtensions.CheckGLError();
 #else
             throw new NotImplementedException();
 #endif
@@ -93,7 +103,7 @@ namespace Microsoft.Xna.Framework.Graphics
             GraphicsExtensions.CheckGLError();
 
             TextureTarget target = GetGLCubeFace(face);
-            if (glFormat == (PixelFormat)All.CompressedTextureFormats)
+            if (glFormat == (PixelFormat)GLPixelFormat.CompressedTextureFormats)
             {
                 throw new NotImplementedException();
             }

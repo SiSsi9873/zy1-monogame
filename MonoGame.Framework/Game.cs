@@ -65,7 +65,7 @@ namespace Microsoft.Xna.Framework
             _components = new GameComponentCollection();
             _content = new ContentManager(_services);
 
-            Platform = GamePlatform.Create(this);
+            Platform = GamePlatform.PlatformCreate(this);
             Platform.Activated += OnActivated;
             Platform.Deactivated += OnDeactivated;
             _services.AddService(typeof(GamePlatform), Platform);
@@ -395,27 +395,14 @@ namespace Microsoft.Xna.Framework
                 break;
             case GameRunBehavior.Synchronous:
                 Platform.RunLoop();
-#if !DESKTOPGL
                 EndRun();
 				DoExiting();
-#endif
                 break;
             default:
                 throw new ArgumentException(string.Format(
                     "Handling for the run behavior {0} is not implemented.", runBehavior));
             }
         }
-
-#if DESKTOPGL
-        // This code is used so that the Window could stay alive
-        // while all the resources are getting destroyed
-        internal void ExitEverything()
-        {
-            EndRun();
-            DoExiting();
-            this.Dispose();
-        }
-#endif
 
         private TimeSpan _accumulatedElapsedTime;
         private readonly GameTime _gameTime = new GameTime();
@@ -665,6 +652,8 @@ namespace Microsoft.Xna.Framework
                 // and return them back to the pool if so.
                 SoundEffectInstancePool.Update();
 
+                DynamicSoundEffectInstanceManager.UpdatePlayingInstances();
+
                 Update(gameTime);
 
                 //The TouchPanel needs to know the time for when touches arrive
@@ -732,12 +721,8 @@ namespace Microsoft.Xna.Framework
         //       Components.ComponentAdded.
         private void InitializeExistingComponents()
         {
-            // TODO: Would be nice to get rid of this copy, but since it only
-            //       happens once per game, it's fairly low priority.
-            var copy = new IGameComponent[Components.Count];
-            Components.CopyTo(copy, 0);
-            foreach (var component in copy)
-                component.Initialize();
+            for(int i = 0; i < Components.Count; ++i)
+                Components[i].Initialize();
         }
 
         private void CategorizeComponents()

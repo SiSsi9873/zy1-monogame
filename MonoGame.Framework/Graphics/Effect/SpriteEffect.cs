@@ -10,7 +10,7 @@ namespace Microsoft.Xna.Framework.Graphics
     /// <summary>
     /// The default effect used by SpriteBatch.
     /// </summary>
-    internal class SpriteEffect : Effect
+    public class SpriteEffect : Effect
     {
         #region Effect Parameters
 
@@ -18,21 +18,13 @@ namespace Microsoft.Xna.Framework.Graphics
 
         #endregion
 
-        static internal readonly byte[] Bytecode = LoadEffectResource(
-#if DIRECTX
-            "Microsoft.Xna.Framework.Graphics.Effect.Resources.SpriteEffect.dx11.mgfxo"
-#else
-            "Microsoft.Xna.Framework.Graphics.Effect.Resources.SpriteEffect.ogl.mgfxo"
-#endif
-        );
-
         #region Methods
 
         /// <summary>
         /// Creates a new SpriteEffect.
         /// </summary>
         public SpriteEffect(GraphicsDevice device)
-            : base(device, Bytecode)
+            : base(device, EffectResource.SpriteEffect.Bytecode)
         {
             CacheEffectParameters();
         }

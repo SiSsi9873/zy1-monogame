@@ -161,7 +161,7 @@ namespace MonoGame.Tests.Visual {
 		public void Draw_with_alpha_blending (string colorName, byte alpha)
 		{
 			var color = colorName.ToColor();
-			color.A = alpha;
+            color = Color.FromNonPremultiplied(color.R, color.G, color.B, alpha);
 
 			Game.DrawWith += (sender, e) => {
 				_spriteBatch.Begin ();
@@ -379,5 +379,19 @@ namespace MonoGame.Tests.Visual {
 
             RunSingleFrameTest();
         }
-	}
+
+        [Test]
+        public void Draw_many()
+        {
+            Game.DrawWith += (sender, e) => {
+                _spriteBatch.Begin();
+                for (int x = 0; x < 99; x++)
+                    for (int y = 0; y < 59; y++)
+                        _spriteBatch.Draw(_texture, new Rectangle(4+x*8, 4+y*8, 4, 4), Color.White);
+                _spriteBatch.End();
+            };
+
+            RunSingleFrameTest();
+        }
+    }
 }

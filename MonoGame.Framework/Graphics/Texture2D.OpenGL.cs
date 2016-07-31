@@ -9,9 +9,15 @@ using System.Drawing;
 using MonoGame.Utilities.Png;
 
 #if MONOMAC
+#if PLATFORM_MACOS_LEGACY
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
+#else
+using AppKit;
+using CoreGraphics;
+using Foundation;
+#endif
 #endif
 
 #if IOS
@@ -22,18 +28,27 @@ using Foundation;
 
 #if OPENGL
 #if MONOMAC
+#if PLATFORM_MACOS_LEGACY
 using MonoMac.OpenGL;
-using GLPixelFormat = MonoMac.OpenGL.PixelFormat;
+using GLPixelFormat = MonoMac.OpenGL.All;
+using PixelFormat = MonoMac.OpenGL.PixelFormat;
+#else
+using OpenTK.Graphics.OpenGL;
+using GLPixelFormat = OpenTK.Graphics.OpenGL.All;
+using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+#endif
 #endif
 
 #if DESKTOPGL
-using OpenTK.Graphics.OpenGL;
-using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+using OpenGL;
+using GLPixelFormat = OpenGL.PixelFormat;
+using PixelFormat = OpenGL.PixelFormat;
 #endif
 
 #if GLES
 using OpenTK.Graphics.ES20;
-using GLPixelFormat = OpenTK.Graphics.ES20.PixelFormat;
+using GLPixelFormat = OpenTK.Graphics.ES20.All;
+using PixelFormat = OpenTK.Graphics.ES20.PixelFormat;
 #endif
 
 #if ANDROID
@@ -62,7 +77,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 format.GetGLFormat(GraphicsDevice, out glInternalFormat, out glFormat, out glType);
 
-                if (glFormat == (GLPixelFormat)All.CompressedTextureFormats)
+                if (glFormat == (PixelFormat)GLPixelFormat.CompressedTextureFormats)
                 {
                     var imageSize = 0;
                     switch (format)
@@ -168,16 +183,16 @@ namespace Microsoft.Xna.Framework.Graphics
 
                     GL.BindTexture(TextureTarget.Texture2D, this.glTexture);
                     GraphicsExtensions.CheckGLError();
-                    if (glFormat == (GLPixelFormat)All.CompressedTextureFormats)
+                    if (glFormat == (PixelFormat)GLPixelFormat.CompressedTextureFormats)
                     {
                         if (rect.HasValue)
                         {
-                            GL.CompressedTexSubImage2D(TextureTarget.Texture2D, level, x, y, w, h, glFormat, data.Length - startBytes, dataPtr);
+                            GL.CompressedTexSubImage2D(TextureTarget.Texture2D, level, x, y, w, h, glFormat, elementCount - startBytes, dataPtr);
                             GraphicsExtensions.CheckGLError();
                         }
                         else
                         {
-                            GL.CompressedTexImage2D(TextureTarget.Texture2D, level, glInternalFormat, w, h, 0, data.Length - startBytes, dataPtr);
+                            GL.CompressedTexImage2D(TextureTarget.Texture2D, level, glInternalFormat, w, h, 0, elementCount - startBytes, dataPtr);
                             GraphicsExtensions.CheckGLError();
                         }
                     }
@@ -203,10 +218,6 @@ namespace Microsoft.Xna.Framework.Graphics
                         GL.PixelStore(PixelStoreParameter.UnpackAlignment, 4);
                     }
 
-#if !ANDROID
-                    GL.Finish();
-                    GraphicsExtensions.CheckGLError();
-#endif
                     // Restore the bound texture.
                     GL.BindTexture(TextureTarget.Texture2D, prevTexture);
                     GraphicsExtensions.CheckGLError();
@@ -258,7 +269,7 @@ namespace Microsoft.Xna.Framework.Graphics
 #else
             GL.BindTexture(TextureTarget.Texture2D, this.glTexture);
 
-            if (glFormat == (GLPixelFormat)All.CompressedTextureFormats)
+            if (glFormat == (PixelFormat)GLPixelFormat.CompressedTextureFormats)
             {
                 throw new NotImplementedException();
             }
@@ -302,8 +313,12 @@ namespace Microsoft.Xna.Framework.Graphics
 #if IOS
 				var cgImage = uiImage.CGImage;
 #elif MONOMAC
+#if PLATFORM_MACOS_LEGACY
 				var rectangle = RectangleF.Empty;
-				var cgImage = nsImage.AsCGImage (ref rectangle, null, null);
+#else
+                var rectangle = CGRect.Empty;
+#endif
+                var cgImage = nsImage.AsCGImage (ref rectangle, null, null);
 #endif
 
 			    return PlatformFromStream(graphicsDevice, cgImage);
@@ -396,7 +411,11 @@ namespace Microsoft.Xna.Framework.Graphics
 #if MONOMAC
         public static Texture2D FromStream(GraphicsDevice graphicsDevice, NSImage nsImage)
         {
+#if PLATFORM_MACOS_LEGACY
             var rectangle = RectangleF.Empty;
+#else
+            var rectangle = CGRect.Empty;
+#endif
 		    var cgImage = nsImage.AsCGImage (ref rectangle, null, null);
             return PlatformFromStream(graphicsDevice, cgImage);
         }
@@ -412,7 +431,11 @@ namespace Microsoft.Xna.Framework.Graphics
 
             var colorSpace = CGColorSpace.CreateDeviceRGB();
             var bitmapContext = new CGBitmapContext(data, width, height, 8, width * 4, colorSpace, CGBitmapFlags.PremultipliedLast);
+#if PLATFORM_MACOS_LEGACY || IOS
             bitmapContext.DrawImage(new RectangleF(0, 0, width, height), cgImage);
+#else
+            bitmapContext.DrawImage(new CGRect(0, 0, width, height), cgImage);
+#endif
             bitmapContext.Dispose();
             colorSpace.Dispose();
 
@@ -492,7 +515,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private void PlatformSaveAsJpeg(Stream stream, int width, int height)
         {
-#if MONOMAC || WINDOWS
+#if DESKTOPGL || MONOMAC
 			SaveAsImage(stream, width, height, ImageFormat.Jpeg);
 #elif ANDROID
             SaveAsImage(stream, width, height, Bitmap.CompressFormat.Jpeg);
@@ -503,18 +526,16 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private void PlatformSaveAsPng(Stream stream, int width, int height)
         {
-#if MONOMAC || WINDOWS || IOS
-            var pngWriter = new PngWriter();
-            pngWriter.Write(this, stream);
-#elif ANDROID
+#if ANDROID
             SaveAsImage(stream, width, height, Bitmap.CompressFormat.Png);
 #else
-            throw new NotImplementedException();
+            var pngWriter = new PngWriter();
+            pngWriter.Write(this, stream);
 #endif
         }
 
-#if MONOMAC || WINDOWS
-		private void SaveAsImage(Stream stream, int width, int height, ImageFormat format)
+#if DESKTOPGL || MONOMAC
+        internal void SaveAsImage(Stream stream, int width, int height, ImageFormat format)
 		{
 			if (stream == null)
 			{

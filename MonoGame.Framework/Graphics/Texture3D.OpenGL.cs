@@ -7,9 +7,13 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 #if MONOMAC
+#if PLATFORM_MACOS_LEGACY
 using MonoMac.OpenGL;
-#elif DESKTOPGL
+#else
 using OpenTK.Graphics.OpenGL;
+#endif
+#elif DESKTOPGL
+using OpenGL;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics
