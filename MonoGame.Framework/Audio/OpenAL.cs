@@ -175,7 +175,11 @@ namespace OpenAL
 
     public class AL
     {
+#if IOS
+        public const string NativeLibName = "/System/Library/Frameworks/OpenAL.framework/OpenAL";
+#else
         public const string NativeLibName = "soft_oal.dll";
+#endif
 
         [CLSCompliant (false)]
         [DllImport (NativeLibName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "alEnable")]
@@ -427,7 +431,11 @@ namespace OpenAL
 
     public partial class Alc
     {
+#if IOS
+        public const string NativeLibName = "/System/Library/Frameworks/OpenAL.framework/OpenAL";
+#else
         public const string NativeLibName = "soft_oal.dll";
+#endif
 
         [CLSCompliant (false)]
         [DllImport (NativeLibName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "alcCreateContext")]
