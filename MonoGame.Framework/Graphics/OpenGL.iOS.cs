@@ -12,7 +12,8 @@ namespace OpenGL
 {
     public partial class GL
 	{
-		static partial void LoadPlatformEntryPoints()
+        
+        static partial void LoadPlatformEntryPoints()
 		{
 			BoundApi = RenderApi.ES;
 

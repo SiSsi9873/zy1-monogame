@@ -128,9 +128,9 @@ namespace OpenGL
         DepthComponent24 = 0x81a6,
         Depth24Stencil8 = 0x88F0,
         // GLES Values
-        DepthComponent24Oes = 0x0,
-        Depth24Stencil8Oes = 0x0,
-        StencilIndex8 = 0x0,
+        DepthComponent24Oes = 0x81A6,
+        Depth24Stencil8Oes = 0x88F0,
+        StencilIndex8 = 0x8D48,
     }
 
     public enum EnableCap : int
@@ -591,8 +591,13 @@ namespace OpenGL
 
         [System.Security.SuppressUnmanagedCodeSecurity()]
         [MonoNativeFunctionWrapper]       
-        public delegate void DepthRangeDelegate (double min, double max);
-        public static DepthRangeDelegate DepthRange;
+        public delegate void DepthRangedDelegate (double min, double max);
+        public static DepthRangedDelegate DepthRanged;
+
+        [System.Security.SuppressUnmanagedCodeSecurity()]
+        [MonoNativeFunctionWrapper]
+        public delegate void DepthRangefDelegate(float min, float max);
+        public static DepthRangefDelegate DepthRangef;
 
         [System.Security.SuppressUnmanagedCodeSecurity()]
         [MonoNativeFunctionWrapper]       
@@ -745,6 +750,11 @@ namespace OpenGL
         [MonoNativeFunctionWrapper]       
         public delegate void DeleteFramebuffersDelegate(int count, ref int buffer);
         public static DeleteFramebuffersDelegate DeleteFramebuffers;
+
+        [System.Security.SuppressUnmanagedCodeSecurity()]
+        [MonoNativeFunctionWrapper]
+        public delegate void InvalidateFramebufferDelegate(FramebufferTarget target, int numAttachments, FramebufferAttachment[] attachments);
+        public static InvalidateFramebufferDelegate InvalidateFramebuffer;
 
         [System.Security.SuppressUnmanagedCodeSecurity()]
         [MonoNativeFunctionWrapper]       
@@ -1102,7 +1112,8 @@ namespace OpenGL
             GetIntegerv = (GetIntegerDelegate)LoadEntryPoint<GetIntegerDelegate>("glGetIntegerv");
             GetStringInternal = (GetStringDelegate)LoadEntryPoint<GetStringDelegate>("glGetString");
             ClearDepth = (ClearDepthDelegate)LoadEntryPoint<ClearDepthDelegate>("glClearDepth");
-            DepthRange = (DepthRangeDelegate)LoadEntryPoint<DepthRangeDelegate>("glDepthRange");
+            DepthRanged = (DepthRangedDelegate)LoadEntryPoint<DepthRangedDelegate>("glDepthRange");
+            DepthRangef = (DepthRangefDelegate)LoadEntryPoint<DepthRangefDelegate>("glDepthRangef");
             Clear = (ClearDelegate)LoadEntryPoint<ClearDelegate>("glClear");
             ClearColor = (ClearColorDelegate)LoadEntryPoint<ClearColorDelegate>("glClearColor");
             ClearStencil = (ClearStencilDelegate)LoadEntryPoint<ClearStencilDelegate>("glClearStencil");
@@ -1221,11 +1232,19 @@ namespace OpenGL
             DeleteBuffers = (DeleteBuffersDelegate)LoadEntryPoint<DeleteBuffersDelegate>("glDeleteBuffers");
 
             VertexAttribPointer = (VertexAttribPointerDelegate)LoadEntryPoint<VertexAttribPointerDelegate>("glVertexAttribPointer");
+
+            if (BoundApi == RenderApi.ES)
+            {
+                InvalidateFramebuffer = (InvalidateFramebufferDelegate)LoadEntryPoint<InvalidateFramebufferDelegate>("glDiscardFramebufferEXT");
+            }
         }
 
         public static System.Delegate LoadEntryPoint<T>(string proc)
         {
-            return Marshal.GetDelegateForFunctionPointer(EntryPointHelper.GetAddress(proc), typeof(T));
+            var addr = EntryPointHelper.GetAddress(proc);
+            if (addr == IntPtr.Zero)
+                return null;
+            return Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
         }
 
         static partial void LoadPlatformEntryPoints();
@@ -1236,6 +1255,14 @@ namespace OpenGL
         }
 
         /* Helper Functions */
+
+        public static void DepthRange(float min, float max)
+        {
+            if (BoundApi == RenderApi.ES)
+                DepthRangef(min, max);
+            else
+                DepthRanged(min, max);
+        }
 
         public static void Uniform1 (int location, int value) {
             Uniform1i(location, value);

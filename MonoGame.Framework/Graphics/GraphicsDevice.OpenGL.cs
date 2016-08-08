@@ -436,11 +436,8 @@ namespace Microsoft.Xna.Framework.Graphics
             else
                 GL.Viewport(value.X, PresentationParameters.BackBufferHeight - value.Y - value.Height, value.Width, value.Height);
             GraphicsExtensions.LogGLError("GraphicsDevice.Viewport_set() GL.Viewport");
-#if GLES
+
             GL.DepthRange(value.MinDepth, value.MaxDepth);
-#else
-            GL.DepthRange(value.MinDepth, value.MaxDepth);
-#endif
             GraphicsExtensions.LogGLError("GraphicsDevice.Viewport_set() GL.DepthRange");
                 
             // In OpenGL we have to re-apply the special "posFixup"

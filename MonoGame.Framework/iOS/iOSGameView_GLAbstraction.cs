@@ -87,6 +87,12 @@ namespace Microsoft.Xna.Framework {
         }
 
 		private class Gles20Api : IOpenGLApi {
+
+            public Gles20Api()
+            {
+                GL.LoadEntryPoints();
+            }
+
             public FramebufferErrorCode CheckFramebufferStatus (FramebufferTarget target)
 			{
 				return GL.CheckFramebufferStatus (target);

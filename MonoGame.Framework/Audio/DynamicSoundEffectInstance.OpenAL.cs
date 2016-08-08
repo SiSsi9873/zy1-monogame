@@ -10,10 +10,7 @@ using MonoMac.OpenAL;
 #if MONOMAC && !PLATFORM_MACOS_LEGACY
 using OpenTK.Audio.OpenAL;
 #endif
-#if GLES
-using OpenTK.Audio.OpenAL;
-#endif
-#if DESKTOPGL
+#if DESKTOPGL || GLES
 using OpenAL;
 #endif
 

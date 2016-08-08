@@ -180,7 +180,7 @@ namespace Microsoft.Xna.Framework {
                 __renderbuffergraphicsContext = GL.CreateContext (null);
                 //new GraphicsContext (null, null, 2, 0, GraphicsContextFlags.Embedded);
 				_glapi = new Gles20Api ();
-			} catch {
+            } catch (Exception ex) {
                 throw new Exception ("Device not Supported. GLES 2.0 or above is required!");
 			}
 
@@ -216,7 +216,7 @@ namespace Microsoft.Xna.Framework {
             int viewportWidth = (int)Math.Round(Layer.Bounds.Size.Width * Layer.ContentsScale);
 
 			_glapi.GenFramebuffers (1, ref _framebuffer);
-			_glapi.BindFramebuffer (All.Framebuffer, _framebuffer);
+            _glapi.BindFramebuffer (FramebufferTarget.Framebuffer, _framebuffer);
 
 			// Create our Depth buffer. Color buffer must be the last one bound
             var gdm = _platform.Game.Services.GetService(
@@ -228,15 +228,15 @@ namespace Microsoft.Xna.Framework {
                 {
                     GL.GenRenderbuffers(1, out _depthbuffer);
                     GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, _depthbuffer);
-                    var internalFormat = All.DepthComponent16;
+                    var internalFormat = RenderbufferStorage.DepthComponent16;
                     if (preferredDepthFormat == DepthFormat.Depth24)
-                        internalFormat = All.DepthComponent24Oes;
+                        internalFormat = RenderbufferStorage.DepthComponent24Oes;
                     else if (preferredDepthFormat == DepthFormat.Depth24Stencil8)
-                        internalFormat = All.Depth24Stencil8Oes;
-                    GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, (RenderbufferInternalFormat)internalFormat, viewportWidth, viewportHeight);
-                    GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferSlot.DepthAttachment, RenderbufferTarget.Renderbuffer, _depthbuffer);
+                        internalFormat = RenderbufferStorage.Depth24Stencil8Oes;
+                    GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, internalFormat, viewportWidth, viewportHeight);
+                    GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, _depthbuffer);
                     if (preferredDepthFormat == DepthFormat.Depth24Stencil8)
-                        GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferSlot.StencilAttachment, RenderbufferTarget.Renderbuffer, _depthbuffer);
+                        GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer, _depthbuffer);
                 }
             }
 
@@ -322,7 +322,7 @@ namespace Microsoft.Xna.Framework {
             }
 		}
 
-        private static readonly All[] attachements = new All[] { All.DepthAttachment, All.StencilAttachment };
+        private static readonly FramebufferAttachment[] attachements = new FramebufferAttachment[] { FramebufferAttachment.DepthAttachment, FramebufferAttachment.StencilAttachment };
 
 		// FIXME: This logic belongs in GraphicsDevice.Present, not
 		//        here.  If it can someday be moved there, then the
@@ -336,7 +336,7 @@ namespace Microsoft.Xna.Framework {
 
             this.MakeCurrent();
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, this._colorbuffer);
-            GraphicsDevice.FramebufferHelper.GLDiscardFramebufferExt(All.Framebuffer, 2, attachements);
+            GL.InvalidateFramebuffer(FramebufferTarget.Framebuffer, 2, attachements);
             __renderbuffergraphicsContext.SwapBuffers();
 		}
 
