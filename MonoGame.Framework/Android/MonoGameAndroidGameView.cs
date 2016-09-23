@@ -77,6 +77,7 @@ namespace Microsoft.Xna.Framework
             // Add callback to get the SurfaceCreated etc events
             mHolder.AddCallback (this);
             mHolder.SetType (SurfaceType.Gpu);
+            OpenGL.GL.LoadEntryPoints();
         }
 
         public void SurfaceChanged (ISurfaceHolder holder, global::Android.Graphics.Format format, int width, int height)

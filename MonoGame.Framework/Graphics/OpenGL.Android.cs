@@ -17,10 +17,13 @@ namespace OpenGL
 
         static partial void LoadPlatformEntryPoints()
         {
-            BindAPI = (BindAPIDelegate)Marshal.GetDelegateForFunctionPointer (EntryPointHelper.GetAddress ("eglBindAPI"), typeof(BindAPIDelegate));
-			var supportsFullGL = BindAPI (RenderApi.GL);
+            var ptr = EntryPointHelper.GetAddress("eglBindAPI");
+            if (ptr != IntPtr.Zero)
+                BindAPI = (BindAPIDelegate)Marshal.GetDelegateForFunctionPointer (ptr, typeof(BindAPIDelegate));
+            var supportsFullGL = ptr != IntPtr.Zero && BindAPI (RenderApi.GL);
 			if (!supportsFullGL) {
-				BindAPI (RenderApi.ES);
+                if (ptr != IntPtr.Zero)
+				    BindAPI (RenderApi.ES);
 				BoundApi = RenderApi.ES;
 			}
         }
@@ -62,7 +65,7 @@ namespace OpenGL
 			Local = 0x0000,
 		}
 
-		const string lib = "/system/lib/libdl.so";
+		const string lib = "dl";
 
 		[DllImport(lib, EntryPoint = "dlopen")]
 		internal static extern IntPtr Open(string filename, DLOpenFlags flags = DLOpenFlags.Lazy);
