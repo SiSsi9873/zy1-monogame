@@ -763,10 +763,11 @@ namespace Microsoft.Xna.Framework
                 return true;
 
             Keyboard.KeyDown (keyCode);
+            #if !OUYA
             // we need to handle the Back key here because it doesnt work any other way
             if (keyCode == Keycode.Back)
                 GamePad.Back = true;
-
+            #endif
             if (keyCode == Keycode.VolumeUp) {
                 AudioManager audioManager = (AudioManager)Context.GetSystemService (Context.AudioService);
                 audioManager.AdjustStreamVolume (Stream.Music, Adjust.Raise, VolumeNotificationFlags.ShowUi);

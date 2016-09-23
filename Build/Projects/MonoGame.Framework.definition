@@ -648,7 +648,7 @@
       <Services>WebGraphics</Services>
     </Compile>
     <Compile Include="Graphics\OpenGL.cs">
-      <Platforms>WindowsGL,Linux,iOS,Android,Ouya,TvOS</Platforms>
+      <Platforms>WindowsGL,Linux,iOS,Android,Ouya,tvOS</Platforms>
     </Compile>
     <Compile Include="Graphics\OpenGL.Common.cs">
       <Platforms>WindowsGL,Linux,Android,Ouya</Platforms>
@@ -660,7 +660,7 @@
       <Platforms>Android,Ouya</Platforms>
     </Compile>
     <Compile Include="Graphics\OpenGL.iOS.cs">
-      <Platforms>iOS,TvOS</Platforms>
+      <Platforms>iOS,tvOS</Platforms>
     </Compile>
     <Compile Include="Graphics\PackedVector\Alpha8.cs" />
     <Compile Include="Graphics\PackedVector\Bgr565.cs" />

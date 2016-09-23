@@ -8,7 +8,7 @@ using System.Text;
 using System.Runtime.CompilerServices;
 
 
-#if __IOS__
+#if __IOS__ || __TVOS__
 using ObjCRuntime;
 #endif
 
