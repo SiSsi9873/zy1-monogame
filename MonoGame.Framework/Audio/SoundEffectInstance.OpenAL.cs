@@ -3,16 +3,7 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-
-#if MONOMAC && PLATFORM_MACOS_LEGACY
-using MonoMac.OpenAL;
-#endif
-#if MONOMAC && !PLATFORM_MACOS_LEGACY
-using OpenTK.Audio.OpenAL;
-#endif
-#if DESKTOPGL || GLES
 using OpenAL;
-#endif
 
 namespace Microsoft.Xna.Framework.Audio
 {

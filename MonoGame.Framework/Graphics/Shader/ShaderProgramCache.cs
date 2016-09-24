@@ -2,20 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-
-#if MONOMAC
-#if PLATFORM_MACOS_LEGACY
-using MonoMac.OpenGL;
-using GetProgramParameterName = MonoMac.OpenGL.ProgramParameter;
-using Bool = MonoMac.OpenGL.Boolean;
-#else
-using OpenTK.Graphics.OpenGL;
-using GetProgramParameterName = OpenTK.Graphics.OpenGL.ProgramParameter;
-using Bool = OpenTK.Graphics.OpenGL.Boolean;
-#endif
-#elif DESKTOPGL || GLES
 using OpenGL;
-#endif
 
 namespace Microsoft.Xna.Framework.Graphics
 {
@@ -67,11 +54,7 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 if (GL.IsProgram(pair.Value.Program))
                 {
-#if MONOMAC
-                    GL.DeleteProgram(pair.Value.Program, null);
-#else
                     GL.DeleteProgram(pair.Value.Program);
-#endif
                     GraphicsExtensions.CheckGLError();
                 }
             }
@@ -130,11 +113,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 Console.WriteLine(log);
                 GL.DetachShader(program, vertexShader.GetShaderHandle());
                 GL.DetachShader(program, pixelShader.GetShaderHandle());
-#if MONOMAC
-                GL.DeleteProgram(1, ref program);
-#else
                 GL.DeleteProgram(program);
-#endif
                 throw new InvalidOperationException("Unable to link effect program");
             }
 

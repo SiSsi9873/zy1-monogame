@@ -8,7 +8,7 @@ using System.Text;
 using System.Runtime.CompilerServices;
 
 
-#if __IOS__ || __TVOS__
+#if __IOS__ || __TVOS__ || MONOMAC
 using ObjCRuntime;
 #endif
 
@@ -1099,7 +1099,7 @@ namespace OpenGL
             if (Scissor == null)
                 Scissor = (ScissorDelegate)LoadEntryPoint<ScissorDelegate>("glScissor");
             if (MakeCurrent == null)
-                MakeCurrent = (MakeCurrentDelegate)LoadEntryPoint<MakeCurrentDelegate>("glMakeCurrent");
+                MakeCurrent = (MakeCurrentDelegate)LoadEntryPoint<MakeCurrentDelegate>("glMakeCurrent", throwIfNotFound: false);
 
             GetError = (GetErrorDelegate)LoadEntryPoint<GetErrorDelegate>("glGetError");
 
@@ -1178,6 +1178,8 @@ namespace OpenGL
             BeginQuery = (BeginQueryDelegate)LoadEntryPoint<BeginQueryDelegate>("glBeginQuery");
             EndQuery = (EndQueryDelegate)LoadEntryPoint<EndQueryDelegate>("glEndQuery");
             GetQueryObject = (GetQueryObjectDelegate)LoadEntryPoint<GetQueryObjectDelegate>("glGetQueryObjectivARB");
+            if (GetQueryObject == null)
+                GetQueryObject = (GetQueryObjectDelegate)LoadEntryPoint<GetQueryObjectDelegate>("glGetQueryObjectiv");
             DeleteQueries = (DeleteQueriesDelegate)LoadEntryPoint<DeleteQueriesDelegate>("glDeleteQueries");
 
             ActiveTexture = (ActiveTextureDelegate)LoadEntryPoint<ActiveTextureDelegate>("glActiveTexture");
@@ -1239,12 +1241,21 @@ namespace OpenGL
             }
         }
 
-        public static System.Delegate LoadEntryPoint<T>(string proc)
+        public static System.Delegate LoadEntryPoint<T>(string proc, bool throwIfNotFound = true)
         {
-            var addr = EntryPointHelper.GetAddress(proc);
-            if (addr == IntPtr.Zero)
+            try
+            {
+                var addr = EntryPointHelper.GetAddress(proc);
+                if (addr == IntPtr.Zero)
+                    return null;
+                return Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
+            }
+            catch (EntryPointNotFoundException)
+            {
+                if (throwIfNotFound)
+                    throw;
                 return null;
-            return Marshal.GetDelegateForFunctionPointer(addr, typeof(T));
+            }
         }
 
         static partial void LoadPlatformEntryPoints();

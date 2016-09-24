@@ -44,28 +44,13 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
-#if PLATFORM_MACOS_LEGACY
-using MonoMac.CoreAnimation;
-using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-using MonoMac.OpenGL;
-using MonoMac.AppKit;
-using NSViewResizingMaskClass = MonoMac.AppKit.NSViewResizingMask;
-using RectF = System.Drawing.RectangleF;
-#else
-using CoreAnimation;
 using Foundation;
-using ObjCRuntime;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Platform.MacOS;
+using OpenGL;
 using AppKit;
 using NSViewResizingMaskClass = AppKit.NSViewResizingMask;
 using RectF = CoreGraphics.CGRect;
 using PointF = CoreGraphics.CGPoint;
 using SizeF = CoreGraphics.CGSize;
-#endif
 
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -75,7 +60,7 @@ using Microsoft.Xna.Framework.Input.Touch;
 namespace Microsoft.Xna.Framework
 {
 	[CLSCompliant(false)]
-	public class GameWindow : MonoMacGameView
+    public class GameWindow : NSView
 	{
 		//private readonly Rectangle clientBounds;
 		private Rectangle clientBounds;
@@ -149,7 +134,7 @@ namespace Microsoft.Xna.Framework
 
 		public void StartRunLoop(double updateRate)
 		{
-			Run(updateRate);
+			//Run(updateRate);
 		}
 
 		public void ResetElapsedTime ()
@@ -158,6 +143,10 @@ namespace Microsoft.Xna.Framework
 		}
 		#region MonoMacGameView Methods
 
+        public string Title { get; set; }
+
+        public Size Size { get; set; }
+        /*
 		protected override void OnClosed (EventArgs e)
 		{
 			base.OnClosed (e);
@@ -253,7 +242,7 @@ namespace Microsoft.Xna.Framework
 		protected override void OnWindowStateChanged (EventArgs e)
 		{		
 			base.OnWindowStateChanged (e);	
-		}
+		}*/
 
 		#endregion
 

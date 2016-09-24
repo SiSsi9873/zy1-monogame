@@ -7,22 +7,10 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-#if MONOMAC
-#if PLATFORM_MACOS_LEGACY
-using MonoMac.OpenGL;
-using GLPrimitiveType = MonoMac.OpenGL.BeginMode;
-#else
-using OpenTK.Graphics.OpenGL;
-using GLPrimitiveType = OpenTK.Graphics.OpenGL.BeginMode;
-#endif
-#endif
-
-#if DESKTOPGL || GLES
-using OpenGL;
-#endif
-
 #if ANGLE
 using OpenTK.Graphics;
+#else
+using OpenGL;
 #endif
 
 

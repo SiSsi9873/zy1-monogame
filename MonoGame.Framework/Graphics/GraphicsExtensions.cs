@@ -2,17 +2,7 @@
 using System.Diagnostics;
 
 #if OPENGL
-#if MONOMAC
-#if PLATFORM_MACOS_LEGACY
-using MonoMac.OpenGL;
-using GLPixelFormat = MonoMac.OpenGL.All;
-using PixelFormat = MonoMac.OpenGL.PixelFormat;
-#else
-using OpenTK.Graphics.OpenGL;
-using GLPixelFormat = OpenTK.Graphics.OpenGL.All;
-using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
-#endif
-#elif DESKTOPGL || GLES
+#if DESKTOPGL || GLES || MONOMAC
 using OpenGL;
 using GLPixelFormat = OpenGL.PixelFormat;
 using PixelFormat = OpenGL.PixelFormat;
@@ -358,11 +348,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			case Blend.InverseSourceAlpha:
 				return BlendingFactorSrc.OneMinusSrcAlpha;
 			case Blend.InverseSourceColor:
-#if MONOMAC
-                return (BlendingFactorSrc)All.OneMinusSrcColor;
-#else
                 return BlendingFactorSrc.OneMinusSrcColor;
-#endif
 			case Blend.One:
 				return BlendingFactorSrc.One;
 			case Blend.SourceAlpha:
@@ -370,11 +356,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			case Blend.SourceAlphaSaturation:
 				return BlendingFactorSrc.SrcAlphaSaturate;
 			case Blend.SourceColor:
-        #if MONOMAC
-                return (BlendingFactorSrc)All.SrcColor;
-        #else
 				return BlendingFactorSrc.SrcColor;
-        #endif
 			case Blend.Zero:
 				return BlendingFactorSrc.Zero;
 			default:

@@ -3,22 +3,9 @@
 // file 'LICENSE.txt', which is part of this source code package.
 
 using System;
-
-#if MONOMAC && PLATFORM_MACOS_LEGACY
-using MonoMac.OpenGL;
-using GLPixelFormat = MonoMac.OpenGL.All;
-using Bool = MonoMac.OpenGL.Boolean;
-#endif
-#if (MONOMAC && !PLATFORM_MACOS_LEGACY)
-using OpenTK.Graphics.OpenGL;
-using GLPixelFormat = OpenTK.Graphics.OpenGL.All;
-using Bool = OpenTK.Graphics.OpenGL.Boolean;
-#endif
-#if DESKTOPGL || GLES
 using OpenGL;
 using GLPixelFormat = OpenGL.PixelFormat;
 using PixelFormat = OpenGL.PixelFormat;
-#endif
 
 namespace Microsoft.Xna.Framework.Graphics
 {

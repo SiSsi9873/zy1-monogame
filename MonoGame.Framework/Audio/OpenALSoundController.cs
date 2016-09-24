@@ -5,17 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using MonoGame.Utilities;
 
-#if MONOMAC && PLATFORM_MACOS_LEGACY
-using MonoMac.OpenAL;
-#endif
-#if MONOMAC && !PLATFORM_MACOS_LEGACY
-using OpenTK.Audio.OpenAL;
-using OpenTK.Audio;
-#endif
-
-#if DESKTOPGL || GLES
 using OpenAL;
-#endif
 using OpenGL;
 
 #if ANDROID
@@ -56,13 +46,8 @@ namespace Microsoft.Xna.Framework.Audio
         private static EffectsExtension _efx = null;
 #endif
         private IntPtr _device;
-#if !DESKTOPGL && !GLES
-        ContextHandle _context;
-        ContextHandle NullContext = ContextHandle.Zero;
-#else
         private IntPtr _context;
         IntPtr NullContext = IntPtr.Zero;
-#endif
         //int outputSource;
         //int[] buffers;
         private AlcError _lastOpenALError;

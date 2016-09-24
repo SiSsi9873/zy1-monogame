@@ -175,7 +175,7 @@ namespace OpenAL
 
     public class AL
     {
-#if IOS
+#if IOS || MONOMAC
         public const string NativeLibName = "/System/Library/Frameworks/OpenAL.framework/OpenAL";
 #elif ANDROID
         public const string NativeLibName = "libopenal32.so";
@@ -433,7 +433,7 @@ namespace OpenAL
 
     public partial class Alc
     {
-#if IOS
+#if IOS || MONOMAC
         public const string NativeLibName = "/System/Library/Frameworks/OpenAL.framework/OpenAL";
 #elif ANDROID
         public const string NativeLibName = "libopenal32.so";
