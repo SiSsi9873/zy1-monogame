@@ -748,6 +748,7 @@ namespace Microsoft.Xna.Framework
 
         protected virtual void OnLoad (EventArgs eventArgs)
         {
+
         }
 
         protected virtual void OnStopped (EventArgs eventArgs)
@@ -798,6 +799,8 @@ namespace Microsoft.Xna.Framework
 
             return base.OnGenericMotionEvent (e);
         }
+
+        #endregion
 
         #region Properties
 

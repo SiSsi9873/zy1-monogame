@@ -5,24 +5,8 @@
 using System;
 using System.Collections.Generic;
 #if OPENGL
-#if MONOMAC
-#if PLATFORM_MACOS_LEGACY
-using MonoMac.OpenGL;
-using GetParamName = MonoMac.OpenGL.All;
-using GetPName = MonoMac.OpenGL.GetPName;
-#else
-using OpenTK.Graphics.OpenGL;
-using GetParamName = OpenTK.Graphics.OpenGL.All;
-using GetPName = OpenTK.Graphics.OpenGL.GetPName;
-#endif
-#elif GLES
-using OpenTK.Graphics.ES20;
-using GetParamName = OpenTK.Graphics.ES20.All;
-using GetPName = OpenTK.Graphics.ES20.GetPName;
-#else
 using OpenGL;
 using GetParamName = OpenGL.GetPName;
-#endif
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -103,11 +87,7 @@ namespace Microsoft.Xna.Framework.Graphics
             int anisotropy = 0;
             if (SupportsTextureFilterAnisotropic)
             {
-#if __IOS__
-                GL.GetInteger ((GetPName)All.MaxTextureMaxAnisotropyExt, out anisotropy);
-#else
                 GL.GetInteger((GetPName)GetParamName.MaxTextureMaxAnisotropyExt, out anisotropy);
-#endif
                 GraphicsExtensions.CheckGLError();
             }
             MaxTextureAnisotropy = anisotropy;

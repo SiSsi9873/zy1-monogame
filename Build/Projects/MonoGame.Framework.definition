@@ -373,7 +373,7 @@
       <Platforms>WindowsGL,Linux</Platforms>
     </Compile>
     <Compile Include="Audio\OpenAL.cs">
-      <Platforms>WindowsGL,Linux,iOS,Android,Ouya,tvOS</Platforms>
+      <Platforms>WindowsGL,Linux,iOS,MacOS,Android,Ouya,tvOS</Platforms>
     </Compile>
     <Compile Include="Audio\OpenALSoundController.cs">
       <Services>OpenALAudio</Services>
@@ -638,7 +638,7 @@
       <Services>WebGraphics</Services>
     </Compile>
     <Compile Include="Graphics\OpenGL.cs">
-      <Platforms>WindowsGL,Linux,iOS,Android,Ouya,tvOS</Platforms>
+      <Platforms>WindowsGL,Linux,iOS,MacOS,Android,Ouya,tvOS</Platforms>
     </Compile>
     <Compile Include="Graphics\OpenGL.Common.cs">
       <Platforms>WindowsGL,Linux,Android,Ouya</Platforms>
@@ -651,6 +651,9 @@
     </Compile>
     <Compile Include="Graphics\OpenGL.iOS.cs">
       <Platforms>iOS,tvOS</Platforms>
+    </Compile>
+    <Compile Include="Graphics\OpenGL.MacOS.cs">
+      <Platforms>MacOS</Platforms>
     </Compile>
     <Compile Include="Graphics\PackedVector\Alpha8.cs" />
     <Compile Include="Graphics\PackedVector\Bgr565.cs" />
